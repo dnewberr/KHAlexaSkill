@@ -1,0 +1,31 @@
+{
+  "intents": [
+    {
+      "intent": "ItemIntent",
+      "slots": [
+        {
+          "name" : "Item",
+          "type": "LIST_OF_ITEMS"
+        }
+      ]
+    },
+    {
+      "intent": "LocationIntent",
+      "slots": [
+        {
+          "name" : "Heartless",
+          "type": "LIST_OF_HEARTLESS"
+        }
+      ]
+    },
+    {
+      "intent": "AMAZON.HelpIntent"
+    },
+    {
+      "intent": "AMAZON.StopIntent"
+    },
+    {
+      "intent": "AMAZON.CancelIntent"
+    }
+  ]
+}

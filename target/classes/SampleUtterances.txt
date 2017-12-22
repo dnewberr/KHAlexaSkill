@@ -1,0 +1,52 @@
+ItemIntent how to get a {Item}
+ItemIntent how to get an {Item}
+ItemIntent how to get {Item}
+
+ItemIntent where to get a {Item}
+ItemIntent where to get an {Item}
+ItemIntent where to get {Item}
+
+ItemIntent from what Heartless do i get a {Item}
+ItemIntent from what Heartless do i get an {Item}
+ItemIntent from what Heartless do i get {Item}
+
+ItemIntent what Heartless has a {Item}
+ItemIntent what Heartless has an {Item}
+ItemIntent what Heartless has {Item}
+
+ItemIntent who drops a {Item}
+ItemIntent who drops an {Item}
+ItemIntent who drops {Item}
+
+ItemIntent a {Item}
+ItemIntent an {Item}
+ItemIntent {Item}
+
+LocationIntent where do I find {Heartless}
+LocationIntent where do I find a {Heartless}
+LocationIntent where do I find an {Heartless}
+
+LocationIntent where is {Heartless}
+LocationIntent where is a {Heartless}
+LocationIntent where is an {Heartless}
+
+LocationIntent what is the location of {Heartless}
+LocationIntent what is the location of a {Heartless}
+LocationIntent what is the location of an {Heartless}
+LocationIntent what are the locations of {Heartless}
+LocationIntent what are the locations of a {Heartless}
+LocationIntent what are the locations of an {Heartless}
+
+LocationIntent which world is {Heartless} in
+LocationIntent which world is a {Heartless} in
+LocationIntent which world is an {Heartless} in
+LocationIntent which worlds is {Heartless} in
+LocationIntent which worlds is a {Heartless} in
+LocationIntent which worlds is an {Heartless} in
+
+LocationIntent what world is {Heartless} in
+LocationIntent what world is a {Heartless} in
+LocationIntent what world is an {Heartless} in
+LocationIntent what worlds is {Heartless} in
+LocationIntent what worlds is a {Heartless} in
+LocationIntent what worlds is an {Heartless} in
