@@ -43,6 +43,8 @@ LocationIntent which world is an {Heartless} in
 LocationIntent which worlds is {Heartless} in
 LocationIntent which worlds is a {Heartless} in
 LocationIntent which worlds is an {Heartless} in
+LocationIntent which worlds are {Heartless} in
+LocationIntent which worlds are the {Heartless} in
 
 LocationIntent what world is {Heartless} in
 LocationIntent what world is a {Heartless} in
@@ -50,3 +52,5 @@ LocationIntent what world is an {Heartless} in
 LocationIntent what worlds is {Heartless} in
 LocationIntent what worlds is a {Heartless} in
 LocationIntent what worlds is an {Heartless} in
+LocationIntent what worlds are {Heartless} in
+LocationIntent what worlds are the {Heartless} in

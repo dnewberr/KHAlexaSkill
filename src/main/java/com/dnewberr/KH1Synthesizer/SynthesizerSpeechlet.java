@@ -15,51 +15,42 @@ import com.amazon.speech.speechlet.SpeechletException;
 import com.amazon.speech.speechlet.SpeechletResponse;
 import com.amazon.speech.ui.PlainTextOutputSpeech;
 import com.amazon.speech.ui.Reprompt;
-import com.amazon.speech.ui.SimpleCard;
 
 public class SynthesizerSpeechlet implements Speechlet {
     private static final Logger log = LoggerFactory.getLogger(SynthesizerSpeechlet.class);
 
 	private static final String ITEM_SLOT = "Item";
 	private static final String HEARTLESS_SLOT = "Heartless";
-
+	private static final String ITEM_INTENT = "ItemIntent";
+	private static final String LOCATION_INTENT = "LocationIntent";
+	private static final String HELP_INTENT = "AMAZON.HelpIntent";
+	private static final String STOP_INTENT = "AMAZON.StopIntent";
+	private static final String CANCEL_INTENT = "AMAZON.CancelIntent";
+	
 	public SpeechletResponse onLaunch(LaunchRequest arg0, Session arg1) throws SpeechletException {
 		log.info("onLaunch requestId={}, sessionId={}", arg0.getRequestId(), arg1.getSessionId());
 		
 		String speechOutput = "Welcome to the Kingdom Hearts Synthesizer Lookup. You can ask a question like, "
 				+ "where can I find a blaze shard? ... Now, what can I help you with?";
-		// If the user either does not reply to the welcome message or says
-		// something that is not understood, they will be prompted again with
-		// this text.
 		String repromptText = "For instructions on what you can say, please say help me.";
-
-		// Here we are prompting the user for input
+		
 		return newAskResponse(speechOutput, repromptText);
 	}
 
 	public SpeechletResponse onIntent(IntentRequest arg0, Session arg1) throws SpeechletException {
-		log.info("onIntent requestId={}, sessionId={}", arg0.getRequestId(), arg1.getSessionId());
-
 		Intent intent = arg0.getIntent();
 		String intentName = (intent != null) ? intent.getName() : null;
+	
+		log.info("onIntent requestId={}, sessionId={}, intentName={}", arg0.getRequestId(), arg1.getSessionId(), intentName);
 
-		if ("ItemIntent".equals(intentName)) {
-			return getDrop(intent);
-		} else if ("LocationIntent".equals(intentName)) {
-			return getLocation(intent);
-		} else if ("AMAZON.HelpIntent".equals(intentName)) {
-			return getHelp();
-		} else if ("AMAZON.StopIntent".equals(intentName)) {
-			PlainTextOutputSpeech outputSpeech = new PlainTextOutputSpeech();
-			outputSpeech.setText("Goodbye");
-			return SpeechletResponse.newTellResponse(outputSpeech);
-		} else if ("AMAZON.CancelIntent".equals(intentName)) {
-			PlainTextOutputSpeech outputSpeech = new PlainTextOutputSpeech();
-			outputSpeech.setText("Goodbye");
-			return SpeechletResponse.newTellResponse(outputSpeech);
-		} else {
-			String errorSpeech = "This is unsupported.  Please try something else.";
-			return newAskResponse(errorSpeech, errorSpeech);
+		switch (intentName) {
+			case ITEM_INTENT: return getDrop(intent);
+			case LOCATION_INTENT: return getLocation(intent);
+			case HELP_INTENT: return getHelp();
+			case STOP_INTENT: return goodbye();
+			case CANCEL_INTENT: return goodbye();
+			default: String errorSpeech = "This is unsupported.  Please try something else.";
+				return newAskResponse(errorSpeech, errorSpeech);
 		}
 	}
 
@@ -70,32 +61,19 @@ public class SynthesizerSpeechlet implements Speechlet {
 	public void onSessionEnded(SessionEndedRequest arg0, Session arg1) throws SpeechletException {
 		log.info("onSessionEnded requestId={}, sessionId={}", arg0.getRequestId(), arg1.getSessionId());
 	}
-
+	
 	private SpeechletResponse getDrop(Intent intent) {
 		Slot itemSlot = intent.getSlot(ITEM_SLOT);
 		if (itemSlot != null && itemSlot.getValue() != null) {
 			String itemName = itemSlot.getValue();
-
-			// Get the recipe for the item
 			String drop = HeartlessItems.get(itemName);
 
 			if (drop != null) {
-				// If we have the drop, return it to the user.
-				PlainTextOutputSpeech outputSpeech = new PlainTextOutputSpeech();
-				outputSpeech.setText(drop);
-
-				SimpleCard card = new SimpleCard();
-				card.setTitle("How to get " + itemName);
-				card.setContent(drop);
-
-				return SpeechletResponse.newTellResponse(outputSpeech, card);
+				return newAskResponse(drop, "What else can I help you with?");
 			} else {
-				String speechOutput = "I'm sorry, I don't know what how to get the item, " + itemName + ". What else can I help with?";
-				String repromptSpeech = "What else can I help with?";
-				return newAskResponse(speechOutput, repromptSpeech);
+				return errorResponse("how to get the item, " + itemName);
 			}
 		} else {
-			// There was no item in the intent so return the help prompt.
 			return getHelp();
 		}
 	}
@@ -104,27 +82,14 @@ public class SynthesizerSpeechlet implements Speechlet {
 		Slot heartlessSlot = intent.getSlot(HEARTLESS_SLOT);
 		if (heartlessSlot != null && heartlessSlot.getValue() != null) {
 			String heartlessName = heartlessSlot.getValue();
-
-			// Get the location for the item
 			String location = HeartlessLocations.get(heartlessName);
 
 			if (location != null) {
-				// If we have the recipe, return it to the user.
-				PlainTextOutputSpeech outputSpeech = new PlainTextOutputSpeech();
-				outputSpeech.setText(location);
-
-				SimpleCard card = new SimpleCard();
-				card.setTitle("How to get " + heartlessName);
-				card.setContent(location);
-
-				return SpeechletResponse.newTellResponse(outputSpeech, card);
+				return newAskResponse(location, "What else can I help you with?");
 			} else {
-				String speechOutput = "I'm sorry, I don't know where to find the heartless called " + heartlessName + ". What else can I help with?";
-				String repromptSpeech = "What else can I help with?";
-				return newAskResponse(speechOutput, repromptSpeech);
+				return errorResponse("where to find the heartless called " + heartlessName);
 			}
 		} else {
-			// There was no item in the intent so return the help prompt.
 			return getHelp();
 		}
 	}
@@ -138,7 +103,19 @@ public class SynthesizerSpeechlet implements Speechlet {
 				+ "Now, what can I help you with?";
 		return newAskResponse(speechOutput, repromptText);
 	}
+	
+	private SpeechletResponse goodbye() {
+		PlainTextOutputSpeech outputSpeech = new PlainTextOutputSpeech();
+		outputSpeech.setText("Thanks for trying the Kingdom Hearts Synthesizer Lookup. Goodbye.");
+		return SpeechletResponse.newTellResponse(outputSpeech);
+	}
 
+	private SpeechletResponse errorResponse(String message) {
+		String speechOutput = "I'm sorry, I don't know " + message + ". What else can I help with?";
+		String repromptSpeech = "What else can I help with?";
+		return newAskResponse(speechOutput, repromptSpeech);
+	}
+	
 	private SpeechletResponse newAskResponse(String stringOutput, String repromptText) {
 		PlainTextOutputSpeech outputSpeech = new PlainTextOutputSpeech();
 		outputSpeech.setText(stringOutput);
