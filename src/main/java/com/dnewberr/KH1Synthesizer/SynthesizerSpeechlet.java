@@ -33,7 +33,7 @@ public class SynthesizerSpeechlet implements Speechlet {
 		log.info("onLaunch requestId={}, sessionId={}", arg0.getRequestId(), arg1.getSessionId());
 		
 		String speechOutput = "Welcome to the Kingdom Hearts Synthesizer Lookup. You can ask a question like, "
-				+ "where can I find a blaze shard? ... Now, what can I help you with?";
+				+ "how do I get a blaze shard? ... Now, what can I help you with?";
 		String repromptText = "For instructions on what you can say, please say help me.";
 		
 		return newAskResponse(speechOutput, repromptText);
@@ -98,10 +98,10 @@ public class SynthesizerSpeechlet implements Speechlet {
 
 	private SpeechletResponse getHelp() {
 		String speechOutput = "You can ask where items are located, such as: how do I "
-				+ "get a Blaze Shard. You can also ask where a hearless is, like, how do I find a White Mushroom, or, you can say exit... "
+				+ "get a Blaze Shard. You can also ask where a heartless is, like, how do I find a White Mushroom, or, you can say exit... "
 				+ "Now, what can I help you with?";
 		String repromptText = "You can ask what heartless drop synthesis items, such as: who drops "
-				+ "a Blaze Shard. You can also ask where a hearless is, like, how do I find a White Mushroom, or, you can say exit... "
+				+ "a Blaze Shard. You can also ask where a heartless is, like, how do I find a White Mushroom, or, you can say exit... "
 				+ "Now, what can I help you with?";
 		return newAskResponse(speechOutput, repromptText);
 	}
