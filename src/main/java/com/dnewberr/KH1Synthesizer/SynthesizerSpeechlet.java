@@ -27,6 +27,8 @@ public class SynthesizerSpeechlet implements Speechlet {
 	private static final String STOP_INTENT = "AMAZON.StopIntent";
 	private static final String CANCEL_INTENT = "AMAZON.CancelIntent";
 	
+	public static String GAME = "KH1";
+	
 	public SpeechletResponse onLaunch(LaunchRequest arg0, Session arg1) throws SpeechletException {
 		log.info("onLaunch requestId={}, sessionId={}", arg0.getRequestId(), arg1.getSessionId());
 		
